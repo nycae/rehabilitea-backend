@@ -15,9 +15,10 @@ class Base(models.Model):
 class Difficulty(Base):
     name = models.CharField(max_length=20, unique=True, null=False)
     games = models.ManyToManyField('Game', blank=True)
+    order = models.IntegerField(default=0, null=False)
 
     class Meta:
-        verbose_name_plural = "difficulties"
+        verbose_name_plural = 'difficulties'
 
     def __str__(self):
         return self.name

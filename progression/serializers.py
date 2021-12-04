@@ -1,9 +1,20 @@
 from rest_framework import serializers
 
+from games.serializers import GameSerializer, DifficultySerializer
+
 from . import models
 
 
-class ProgressionSerializer(serializers.ModelSerializer):
+class ProgressionSerializerIn(serializers.ModelSerializer):
     class Meta:
         model = models.Progression
-        fields = ('__all__', )
+        exclude = ('deleted_at', 'created_at', 'updated_at')
+
+
+class ProgressionSerializerOut(serializers.ModelSerializer):
+    game = GameSerializer()
+    difficulty = DifficultySerializer()
+
+    class Meta:
+        model = models.Progression
+        exclude = ('deleted_at', 'created_at', 'updated_at')

@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+
+from .serializers import GameSerializer
+from .models import Game
 
 
-def index(request):
-    return render(request, 'greydo/index.html')
+class GameReadOnlyView(viewsets.ReadOnlyModelViewSet):
+    queryset = Game.objects.filter(deleted_at=None).all()
+    serializer_class = GameSerializer

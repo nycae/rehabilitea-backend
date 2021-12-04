@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Custom libs
+    'rest_framework',
+
     # Custom projects
     'progression.apps.ProgressionConfig',
     'games.apps.GamesConfig',

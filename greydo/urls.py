@@ -18,13 +18,22 @@ from django.urls import path, include
 
 from rest_framework import routers
 
-from greydo.progression.views import ProgressionViewSet
+from games.views import GameReadOnlyView
+from events.views import GameEndView, GameStartView, BaseEventView
+
+from progression.views import ProgressionView
 
 
 router = routers.DefaultRouter()
-router.register('progression', ProgressionViewSet)
+router.register('games', GameReadOnlyView)
+router.register('events', BaseEventView)
+router.register('game_start', GameStartView)
+router.register('game_end', GameEndView)
+router.register(r'progression(/(?P<user_id>\d+)/(?P<game_name>\w+))?', ProgressionView)
 
 urlpatterns = [
+    path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('', include(router.urls))
+    # path('progression/', user_game_progression),
+    # path('progression/<int:user_id>/<str:game_name>/', user_game_progression),
 ]

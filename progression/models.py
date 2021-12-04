@@ -6,14 +6,20 @@ from games.models import Game, Difficulty
 
 
 class Progression(models.Model):
-    user = models.ForeignKey(to=User, db_constraint=False, on_delete=models.DO_NOTHING)
-    game = models.ForeignKey(to=Game, db_constraint=False, on_delete=models.DO_NOTHING)
-    difficulty = models.ForeignKey(to=Difficulty, db_constraint=False, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(to=User, db_constraint=False,
+                             on_delete=models.DO_NOTHING)
+    game = models.ForeignKey(to=Game, db_constraint=False,
+                             on_delete=models.DO_NOTHING)
+    difficulty = models.ForeignKey(to=Difficulty, db_constraint=False,
+                                   on_delete=models.DO_NOTHING)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    deleted_at = models.DateTimeField(blank=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
 
     def delete(self, **kwargs):
         self.deleted_at = timezone.now()
         self.save()
+
+    class Meta:
+        unique_together = ('user', 'game', 'difficulty')

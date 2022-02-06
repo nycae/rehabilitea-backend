@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework import routers
+from rest_framework_simplejwt import views as jwt_views
 
-from games.views import GameReadOnlyView
+from games.views import GameReadOnlyView, get_name_id_by_name
 from events.views import GameEndView, GameStartView, BaseEventView
 
 from progression.views import ProgressionView
@@ -33,7 +34,9 @@ router.register(r'progression(/(?P<user_id>\d+)/(?P<game_name>\w+))?', Progressi
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('auth/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('game_id/<str:name>', get_name_id_by_name),
     path('admin/', admin.site.urls),
-    # path('progression/', user_game_progression),
-    # path('progression/<int:user_id>/<str:game_name>/', user_game_progression),
+#    path('static/', None)
 ]

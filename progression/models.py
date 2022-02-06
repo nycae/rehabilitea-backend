@@ -21,5 +21,9 @@ class Progression(models.Model):
         self.deleted_at = timezone.now()
         self.save()
 
+    def __str__(self):
+        return f"{self.user.username} has beaten {self.game.name} on " + \
+               f"{self.difficulty.name} difficulty"
+
     class Meta:
         unique_together = ('user', 'game', 'difficulty')
